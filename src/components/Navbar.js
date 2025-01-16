@@ -14,7 +14,7 @@ const Navbar = () => {
       <h1 className='text-3xl font-bold primary-color text-red-400 ml-4'>S.Laxshika</h1>
             <ul className='hidden md:flex'>
                 <li className='p-5'> <a href="#about">About</a> </li>
-                <li className='p-5'> <a href="#work">Work</a></li>
+                <li className='p-5'> <a href="#work">Projects</a></li>
                 <li className='p-5'><a href="#contact">Contact</a></li>
             </ul>
 

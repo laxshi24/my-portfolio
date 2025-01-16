@@ -30,12 +30,16 @@ const Projects = () => {
             </div>
           </div>
         </div>
+        <a href="https://gymfrontendapp.vercel.app/" className='text-white' target="_blank" rel="noopener noreferrer">
+             Visit Gym Frontend App
+        </a>
+
       </div>
 
       {/* Video Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-4 max-w-[800px] w-full">
+          <div className="bg-white rounded-lg p-4 max-w-800px] w-full">
             <button
               onClick={handleModalToggle}
               className="text-black font-bold text-lg float-right"
