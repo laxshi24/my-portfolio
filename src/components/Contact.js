@@ -28,7 +28,7 @@ const Contact = () => {
                                 </div>
                             </div>
 
-                            <div classNmae='sm:col-span-2'>
+                            <div className='sm:col-span-2'>
                                 <div className='mt-2.5'>
                                     <textarea name="message" id="" placeholder='Your Message' className='bg-[#161616] w-full px-4 py-4 text-gray-400 placeholder-gray-400 border border-gray-700 rounded-md focus:outline-none focus:border-pink-600' rows={4}>
 

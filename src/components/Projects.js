@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import proj1 from '../assets/project1.jpg';
+import food from '../assets/food.png'
 import logistic from '../assets/project_logistic.jpg';
+import { motion } from 'framer-motion';
 
 const Projects = () => {
   const [isGymModalOpen, setGymModalOpen] = useState(false);
@@ -17,8 +19,36 @@ const Projects = () => {
   return (
     <div className="max-w-[1200px] mx-auto p-5" id="work">
       <div className="pb-8">
-        <p className="text-4xl mb-3 font-bold primary-color">Projects</p>
-        <p className="text-gray-400">Check out some of my recent projects</p>
+        <p className="text-4xl mb-3 font-bold primary-color">Projects</p> <br /> <br />
+        <div className="md:grid md:grid-cols-2 sm:py-16">
+          <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, delay: 0.2 }}
+          >
+
+          
+  {/* Image on the Left */}
+  <img className="w-48 h-28 rounded-lg object-cover py-8 md:py-0" src={food} alt="Recipe" />
+  </motion.div>
+  {/* Text on the Right */}
+  <motion.div
+  initial={{ opacity: 0, x: -100 }}
+  animate={{ opacity: 2, x: 0 }}
+  transition={{ duration: 2 }}
+  className="md:mt-0 text-left flex flex-col ">
+    <p className="text-white font-semibold text-lg">
+      Online Recipe Management Web Application
+    </p>
+    <p className="text-gray-300 text-sm max-w-md mt-2">
+      The Online Recipe Management Web Application allows users to create, manage, and share their favorite recipes with ease. It features secure user authentication, enabling personalized profiles where users can upload and organize their recipes. The app supports categorization by cuisine, dietary preferences, and difficulty level, along with a powerful search and filtering system. Users can engage by liking, commenting, and rating recipes, while also saving favorites for later access.
+    </p>
+  </motion.div>
+</div>
+
+
+
+         <br /><p className="text-gray-400">Check out some of my recent projects</p>
       </div>
 
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
