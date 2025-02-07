@@ -26,8 +26,11 @@ const About = () => {
 
         {/* Animated Image Section */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
+          
+          
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
           transition={{ duration: 1, delay: 0.2 }}
         >
           <img
