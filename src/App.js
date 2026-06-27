@@ -5,18 +5,21 @@ import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
 import Projects from "./components/Projects";
 import Skills from "./components/Skills";
-
+import Experience from "./components/Experience";
+import Research from "./components/Research";
 
 function App() {
   return (
-    <div>
-    <Navbar/>
-    <Hero/>
-    <Skills/>
-    <About/>
-    <Projects/>
-    <Contact/>
-    <Footer/>
+    <div style={{ overflowX: 'hidden' }}>
+      <Navbar />
+      <Hero />
+      <About />
+      <Experience />
+      <Research />
+      <Skills />
+      <Projects />
+      <Contact />
+      <Footer />
     </div>
   );
 }

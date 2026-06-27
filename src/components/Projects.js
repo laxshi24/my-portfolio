@@ -1,248 +1,226 @@
 import React, { useState } from 'react';
-import proj1 from '../assets/project1.jpg';
-import food from '../assets/food.png'
-import grocery from '../assets/grocery.avif'
+import { motion, AnimatePresence } from 'framer-motion';
+import food from '../assets/food.png';
+import grocery from '../assets/grocery.avif';
 import logistic from '../assets/project_logistic.jpg';
-import docBooker from '../assets/docBooker.jpg'
-import { motion } from 'framer-motion';
+import docBooker from '../assets/docBooker.jpg';
+import proj1 from '../assets/project1.jpg';
+import fitnessApp from '../assets/fitness_app_ui_1782573989390.png';
+import primeResidency from '../assets/prime_residency_ui_1782574001717.png';
+import skillConnect from '../assets/skill_connect_ui_1782574011672.png';
+import cropYield from '../assets/crop_yield_ui_1782574023901.png';
 
-const Projects = () => {
-  const [isGymModalOpen, setGymModalOpen] = useState(false);
-  const [isLogisticModalOpen, setLogisticModalOpen] = useState(false);
-  const [isDocBookerModalOpen, setDocBookerModalOpen] = useState(false);
+const VideoModal = ({ src, title, onClose }) => (
+  <AnimatePresence>
+    <motion.div
+      style={{
+        position: 'fixed', inset: 0, zIndex: 100,
+        background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(12px)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '2rem',
+      }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ duration: 0.25 }}
+        onClick={e => e.stopPropagation()}
+        style={{ width: '100%', maxWidth: 900 }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+          <span style={{ fontFamily: 'Space Grotesk', fontWeight: 700, color: '#F8F9FF', fontSize: '1rem' }}>{title}</span>
+          <button onClick={onClose} style={{
+            background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)',
+            color: '#F8F9FF', borderRadius: '0.5rem', padding: '0.4rem 1rem',
+            fontFamily: 'Space Grotesk', fontWeight: 700, cursor: 'pointer', fontSize: '0.85rem',
+          }}>✕ Close</button>
+        </div>
+        <video src={src} controls autoPlay style={{ width: '100%', borderRadius: '1rem', background: '#000', display: 'block' }} />
+      </motion.div>
+    </motion.div>
+  </AnimatePresence>
+);
 
-  const handleDocBookerModalToggle = () => {
-    setDocBookerModalOpen(!isDocBookerModalOpen);
-  };
-
-
-  const handleGymModalToggle = () => {
-    setGymModalOpen(!isGymModalOpen);
-  };
-
-  const handleLogisticModalToggle = () => {
-    setLogisticModalOpen(!isLogisticModalOpen);
-  };
-
-  
-  
+const ProjectCard = ({ image, videoSrc, title, description, liveLink, githubLink, featured }) => {
+  const [showModal, setShowModal] = useState(false);
 
   return (
-    <div className="max-w-[1200px] mx-auto p-5" id="work">
-      <div className="pb-8">
-        <p className="text-4xl mb-3 font-bold primary-color">Projects</p> <br /> <br />
-         {/* project 1 */}
-            <div className=" md:grid md:grid-cols-3 sm:py-16">
-            <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1, delay: 0.2 }}      
-            >       
+    <>
+      {showModal && videoSrc && (
+        <VideoModal src={videoSrc} title={title} onClose={() => setShowModal(false)} />
+      )}
 
-                      
-              {/* Image on the Left */}
-              <img className="w-48 h-28 rounded-lg object-cover mt-0 sm:mt-10 py-8 md:py-0" src={food} alt="Recipe" />
-              </motion.div>
-              {/* Text on the Right */}
-              <motion.div 
-              initial={{ opacity: 0, x: -100 }}
-              animate={{ opacity: 2, x: 0 }}
-              transition={{ duration: 2 }}
-              className="md:mt-0 text-left flex flex-col ">
-                <p className="text-white font-semibold text-lg">
-                  Online Recipe Management Web Application
-                </p>
-                <p className="text-gray-300 text-sm max-w-md mt-2">
-                  The Online Recipe Management Web Application allows users to create, manage, and share their favorite recipes with ease. It features secure user authentication, enabling personalized profiles where users can upload and organize their recipes. The app supports categorization by cuisine, dietary preferences, and difficulty level, along with a powerful search and filtering system. Users can engage by liking, commenting, and rating recipes, while also saving favorites for later access.
-                </p>
-              </motion.div>
-            </div>
+      <motion.div
+        style={{
+          background: '#fff',
+          border: '1px solid rgba(99,102,241,0.1)',
+          borderRadius: '1.25rem',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          transition: 'transform 0.3s, box-shadow 0.3s, border-color 0.3s',
+          boxShadow: '0 2px 16px rgba(0,0,0,0.05)',
+        }}
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        whileHover={{ y: -6, boxShadow: '0 20px 60px rgba(99,102,241,0.12)', borderColor: 'rgba(99,102,241,0.3)' }}
+      >
+        {/* Thumbnail */}
+        <div style={{ position: 'relative', height: '200px', overflow: 'hidden', background: '#EEF0FF' }}>
+          <img
+            src={image}
+            alt={title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s' }}
+          />
+          {videoSrc && (
+            <button
+              onClick={() => setShowModal(true)}
+              style={{
+                position: 'absolute', bottom: '0.75rem', right: '0.75rem',
+                display: 'flex', alignItems: 'center', gap: '0.4rem',
+                background: '#6366F1', color: '#fff', border: 'none',
+                borderRadius: '100px', padding: '0.4rem 1rem',
+                fontFamily: 'Space Grotesk', fontWeight: 700, fontSize: '0.75rem',
+                cursor: 'pointer', boxShadow: '0 4px 16px rgba(99,102,241,0.4)',
+                transition: 'background 0.2s',
+              }}
+              onMouseEnter={e => e.currentTarget.style.background = '#818CF8'}
+              onMouseLeave={e => e.currentTarget.style.background = '#6366F1'}
+            >
+              ▶ Watch Demo
+            </button>
+          )}
+        </div>
 
-            {/* project 2 */}
-            <div className=" md:grid md:grid-cols-3 sm:py-16">
-            <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1, delay: 0.2 }}      
-            >              
-              {/* Image on the Left */}
-              <img className="w-48 h-28 rounded-lg object-cover mt-0 sm:mt-10 py-8 md:py-0" src={
-                grocery
-              } alt="Recipe" />
-
-              </motion.div>
-              {/* Text on the Right */}
-              <motion.div 
-              initial={{ opacity: 0, x: -100 }}
-              animate={{ opacity: 2, x: 0 }}
-              transition={{ duration: 2 }}
-              className="md:mt-0 text-left flex flex-col ">
-                <p className="text-white font-semibold text-lg">
-                Online Grocery Ordering System Web Application
-                </p>
-                <p className="text-gray-300 text-sm max-w-md mt-2">
-                Developed a web application for managing grocery items, featuring product listing, inventory management, shopping cart, and order processing. Built using Java and MySQL, the system ensures efficient stock tracking and seamless order management. Implemented secure authentication, real-time inventory updates, and a user-friendly interface to enhance the shopping experience. 
-                </p>
-              </motion.div>
-            </div>
-
-
-
-
-         <br /><p className="text-gray-400">Check out some of my recent projects</p>
-      </div>
-
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
-
-         {/* DocBooker App */}
-
-         <div>
-          <div className="transform transition-transform duration-300 hover:scale-105 overflow-hidden shadow-lg shadow-[#040c16] group container rounded-md flex justify-center items-center h-[200px] bg-cover relative">
-            <img src={docBooker} alt="Gym Frontend" />
-            <div className="opacity-0 group-hover:opacity-90 bg-[gray]/70 absolute inset-0 flex flex-col justify-center items-center">
-              <span className="text-2xl font-bold text-white tracking-wider">Project</span>
-              <div className="pt-8 text-center">
-                <button
-                  onClick={handleDocBookerModalToggle}
-                  className="text-center rounded-lg px-4 py-3 m-2 bg-white text-gray-700 font-bold text-lg"
-                >
-                  Live
-                </button>
-              </div>
-            </div>
+        {/* Body */}
+        <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+          <h3 style={{
+            fontFamily: 'Space Grotesk', fontWeight: 700, fontSize: '1rem',
+            color: '#0A0A0F', marginBottom: '0.6rem', lineHeight: 1.3,
+            letterSpacing: '-0.015em',
+          }}>{title}</h3>
+          <p style={{
+            fontFamily: 'Inter', fontSize: '0.85rem', color: '#64748B',
+            lineHeight: 1.7, flexGrow: 1, marginBottom: '1.25rem',
+          }}>{description}</p>
+          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+            {liveLink && (
+              <a href={liveLink} target="_blank" rel="noreferrer" style={{
+                fontFamily: 'Space Grotesk', fontWeight: 700, fontSize: '0.8rem',
+                color: '#fff', background: '#6366F1', padding: '0.5rem 1.1rem',
+                borderRadius: '0.5rem', textDecoration: 'none', transition: 'background 0.2s',
+              }}
+                onMouseEnter={e => e.target.style.background = '#818CF8'}
+                onMouseLeave={e => e.target.style.background = '#6366F1'}
+              >Live Demo ↗</a>
+            )}
+            {githubLink && (
+              <a href={githubLink} target="_blank" rel="noreferrer" style={{
+                fontFamily: 'Space Grotesk', fontWeight: 700, fontSize: '0.8rem',
+                color: '#4A5568', background: '#F1F3F9', padding: '0.5rem 1.1rem',
+                borderRadius: '0.5rem', textDecoration: 'none', border: '1px solid rgba(0,0,0,0.07)',
+                transition: 'all 0.2s',
+              }}
+                onMouseEnter={e => { e.target.style.background = 'rgba(99,102,241,0.08)'; e.target.style.color = '#6366F1'; }}
+                onMouseLeave={e => { e.target.style.background = '#F1F3F9'; e.target.style.color = '#4A5568'; }}
+              >GitHub ↗</a>
+            )}
           </div>
-          <br />
-          <p className="text-white">
-            Doctor Booking System 
+        </div>
+      </motion.div>
+    </>
+  );
+};
+
+const Projects = () => {
+  return (
+    <>
+      <style>{`
+        .proj-root {
+          background: #F8F9FF;
+          padding: 7rem 2.5rem;
+        }
+        .proj-inner {
+          max-width: 1280px;
+          margin: 0 auto;
+        }
+        .proj-eyebrow {
+          font-family: 'Space Grotesk', sans-serif;
+          font-weight: 700;
+          font-size: 0.72rem;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: #6366F1;
+          margin-bottom: 1rem;
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+        }
+        .proj-eyebrow::before {
+          content: '';
+          display: block;
+          width: 2rem;
+          height: 1px;
+          background: #6366F1;
+        }
+        .proj-heading {
+          font-family: 'Space Grotesk', sans-serif;
+          font-weight: 800;
+          font-size: clamp(2.2rem, 4vw, 3.2rem);
+          color: #0A0A0F;
+          line-height: 1.1;
+          letter-spacing: -0.04em;
+          margin: 0 0 0.75rem;
+        }
+        .proj-subhead {
+          font-family: 'Inter', sans-serif;
+          font-size: 1rem;
+          color: #8892A4;
+          margin-bottom: 3.5rem;
+        }
+        .proj-subhead span {
+          color: #6366F1;
+          font-weight: 600;
+        }
+        .proj-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.5rem;
+        }
+        @media (max-width: 1024px) { .proj-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 640px) { .proj-grid { grid-template-columns: 1fr; } }
+      `}</style>
+
+      <section className="proj-root" id="work">
+        <div className="proj-inner">
+          <p className="proj-eyebrow">What I've built</p>
+          <h2 className="proj-heading">Projects</h2>
+          <p className="proj-subhead">
+            A showcase of my recent work.{' '}
+            <span>Projects with ▶ Watch Demo have a live video — click to play!</span>
           </p>
-          <br />
-          <p className='text-gray-400 text-sm'> This full stack appointment booking system can be used by a doctor or a hospital. Because in this project we have created 3 level of authentication. 1st one is for Patients, so that patient can login on the website, book appointment with doctor and manage the booked appointment. 2nd one is doctor login, so that doctor can login and check the appointment and their earning. Doctor can update their profile also from dashboard. 3rd one is Admin Dashboard where admin can manages the appointment and admin can also manage the doctor profile.</p>
-        </div>
-       
-        
 
-        {/* Logistic Management System */}
-        <div>
-          <div className="transform transition-transform duration-300 hover:scale-105 overflow-hidden shadow-lg shadow-[#040c16] group container rounded-md flex justify-center items-center h-[200px] bg-cover relative">
-            <img src={logistic} alt="Logistic Management System" />
-            <div className="opacity-0 group-hover:opacity-90 bg-[gray]/70 absolute inset-0 flex flex-col justify-center items-center">
-              <span className="text-2xl font-bold text-white tracking-wider">Project</span>
-              <div className="pt-8 text-center">
-                <button
-                  onClick={handleLogisticModalToggle}
-                  className="text-center rounded-lg px-4 py-3 m-2 bg-white text-gray-700 font-bold text-lg"
-                >
-                  Live
-                </button>
-              </div>
-            </div>
-          </div>
-          <br />
-          <p className="text-white">
-             Logistic Management System
-          </p>
-          <br />
-          <p className='text-gray-400 text-sm'> Is an online platform that streamlines logistics operations with shipment tracking, inventory management, and delivery scheduling. It offers a user-friendly interface, real-time updates, and seamless coordination across the supply chain, enhancing efficiency and reducing delays.</p>
-        </div>
-
-
-         {/* Gym Frontend App */}
-
-        <div>
-          <div className="transform transition-transform duration-300 hover:scale-105 overflow-hidden shadow-lg shadow-[#040c16] group container rounded-md flex justify-center items-center h-[200px] bg-cover relative">
-            <img src={proj1} alt="Gym Frontend" />
-            <div className="opacity-0 group-hover:opacity-90 bg-[gray]/70 absolute inset-0 flex flex-col justify-center items-center">
-              <span className="text-2xl font-bold text-white tracking-wider">Project</span>
-              <div className="pt-8 text-center">
-                <button
-                  onClick={handleGymModalToggle}
-                  className="text-center rounded-lg px-4 py-3 m-2 bg-white text-gray-700 font-bold text-lg"
-                >
-                  Live
-                </button>
-              </div>
-            </div>
-          </div>
-          <br />
-          
-          <a
-            href="https://gymfrontendapp.vercel.app/"
-            className="text-white underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-          Check : Visit Gym Frontend App
-          </a>
-          <br />
-          <br />
-          <p className='text-gray-400 text-sm'>The Gym Frontend App is a frontend application that manages the user interface for sections like Programs, Why Us, Plans, Testimonials, and a contact feature for sending questions via email. It offers a seamless experience for users to explore gym offerings, learn about the services, view membership plans, read testimonials, and easily get in touch with inquiries. With an intuitive design, the app ensures a smooth navigation experience for all users.</p>
-        </div>
-
-
-      </div>
-
-      {/* Gym Modal */}
-      {isGymModalOpen && (
-        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-4 max-w-[800px] w-full">
-            <button
-              onClick={handleGymModalToggle}
-              className="text-black font-bold text-lg float-right"
-            >
-              &times;
-            </button>
-            <video
-              src="/gymfe.mp4"
-              controls
-              autoPlay
-              className="w-full rounded-lg"
-            ></video>
+          <div className="proj-grid">
+            <ProjectCard image={fitnessApp} title="AI Fitness Workout Optimisation System" description="Final Year Research Project — Intelligent mobile coaching system using MediaPipe Pose, XGBoost (99.03% accuracy), and SHAP-based Explainable AI for real-time form correction. Built with Python, Flutter, and FastAPI." />
+            <ProjectCard image={docBooker} videoSrc="/docBooker.mp4" title="DocBooker – Doctor Appointment Platform" description="Full-stack MERN web application enabling patients to book medical appointments online, featuring 3 role-based dashboards (Patient, Doctor, Admin) and a dynamic real-time scheduling system." />
+            <ProjectCard image={primeResidency} title="PrimeResidency Application" description="Full-stack MERN property booking web application allowing users to browse, search, filter, and book rooms/apartments with role-based dashboards and complete CRUD operations." />
+            <ProjectCard image={skillConnect} title="Skill Connect – Social Platform" description="Skill-sharing social platform developed using Spring Boot, React, and MongoDB. Features user authentication, a news feed, and interactive social features like likes, comments, and notifications." />
+            <ProjectCard image={logistic} videoSrc="/logistic.mp4" title="Online Logistics Management System" description="MERN stack web application to manage end-to-end shipment and delivery workflows, including order creation, tracking, status updates, and delivery confirmation with real-time status indicators." />
+            <ProjectCard image={cropYield} title="Crop Yield Prediction" description="Implemented four deep learning/tabular ML models (MLP, DCN, TabNet, TabResNet) for crop yield prediction using Python to identify the best-performing architecture for agricultural datasets." />
+            <ProjectCard image={food} title="Online Recipe Management System" description="A web application allowing users to create, manage, and share their favorite recipes. Features secure authentication, categorization, and interaction via likes and comments." />
+            <ProjectCard image={grocery} title="Online Grocery Ordering System" description="Java and MySQL based ordering platform with product catalogue, cart, inventory management, and order processing features." />
+            <ProjectCard image={proj1} videoSrc="/gymfe.mp4" title="Fit Club – Fitness Landing Page" description="A modern, fully responsive marketing site optimised for speed and cross-browser compatibility. Built using React and Tailwind CSS." liveLink="https://gymfrontendapp.vercel.app/" />
           </div>
         </div>
-      )}
-
-      {/* Logistic Modal */}
-      {isLogisticModalOpen && (
-        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-4 max-w-[800px] w-full">
-            <button
-              onClick={handleLogisticModalToggle}
-              className="text-black font-bold text-lg float-right"
-            >
-              &times;
-            </button>
-            <video
-              src="/logistic.mp4"
-              controls
-              autoPlay
-              className="w-full rounded-lg"
-            ></video>
-          </div>
-        </div>
-      )}
-
-
-      {/* docBooker Modal */}
-      {isDocBookerModalOpen && (
-        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg p-4 max-w-[800px] w-full">
-            <button
-              onClick={handleDocBookerModalToggle}
-              className="text-black font-bold text-lg float-right"
-            >
-              &times;
-            </button>
-            <video
-              src="/docBooker.mp4"
-              controls
-              autoPlay
-              className="w-full rounded-lg"
-            ></video>
-          </div>
-        </div>
-      )}
-
-    </div>
+      </section>
+    </>
   );
 };
 
